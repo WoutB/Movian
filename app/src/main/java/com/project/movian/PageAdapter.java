@@ -4,6 +4,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.project.movian.fragment.CinemaFragment;
+import com.project.movian.fragment.FavoritesFragment;
+import com.project.movian.fragment.TopRatedFragment;
+
 public class PageAdapter extends FragmentPagerAdapter {
 
     private int numOfTabs;
