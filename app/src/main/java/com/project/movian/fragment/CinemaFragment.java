@@ -1,7 +1,5 @@
 package com.project.movian.fragment;
 
-
-import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -12,11 +10,11 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.project.movian.R;
+import com.project.movian.model.Movie;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 
 /**
@@ -26,7 +24,7 @@ import butterknife.ButterKnife;
 public class CinemaFragment extends Fragment {
 
     @BindView(R.id.loadingBar)
-    private ProgressBar mProgressBar;
+    ProgressBar mProgressBar;
 
     private String popularMovies;
     private String topRatedMovies;
@@ -43,7 +41,10 @@ public class CinemaFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        View view = inflater.inflate(R.layout.fragment_cinema, container, false);
+        mProgressBar = (ProgressBar) view.findViewById(R.id.loadingBar);
         mProgressBar.setVisibility(View.INVISIBLE); //Hide Progressbar by Default
+
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_cinema, container, false);

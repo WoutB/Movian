@@ -20,7 +20,9 @@ tools:context=".SearchActivity">
     android:id="@+id/list"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_below="@+id/toolbar" />
+    android:layout_below="@+id/toolbar"
+    android:divider="@color/colorAccent"
+    android:dividerHeight="1dp"/>
 
 <TextView
     android:id="@+id/emptyView"
