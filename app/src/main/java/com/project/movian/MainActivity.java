@@ -84,9 +84,7 @@ public class MainActivity extends AppCompatActivity
         switch (item.getItemId()) {
             // action with ID action_settings was selected
             case R.id.action_search:
-                Intent is = new Intent(MainActivity.this, SearchActivity.class);
-                startActivity(is);
-                return true;
+
             default:
                 break;
         }

@@ -1,20 +1,27 @@
 package com.project.movian.fragment;
 
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
+import com.project.movian.MovieAdapter;
+import com.project.movian.MovieRepository;
+import com.project.movian.OnGetGenresCallback;
+import com.project.movian.OnGetMoviesCallback;
 import com.project.movian.R;
+import com.project.movian.model.Genre;
 import com.project.movian.model.Movie;
 
 import java.util.ArrayList;
-
-import butterknife.BindView;
+import java.util.List;
 
 
 /**
@@ -23,14 +30,12 @@ import butterknife.BindView;
  */
 public class CinemaFragment extends Fragment {
 
-    @BindView(R.id.loadingBar)
-    ProgressBar mProgressBar;
-
-    private String popularMovies;
-    private String topRatedMovies;
-
-    ArrayList<Movie> mPopularList;
-    ArrayList<Movie> mTopTopRatedList;
+    private String newMovies;
+    private ArrayList<Movie> moviesList;
+    private MovieAdapter mAdapter;
+    private RecyclerView mRecyclerView;
+    private ProgressBar mProgressBar;
+    private MovieRepository movieRepo;
 
     public CinemaFragment() {
         // Required empty public constructor
@@ -38,51 +43,62 @@ public class CinemaFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_cinema, container, false);
         mProgressBar = (ProgressBar) view.findViewById(R.id.loadingBar);
-        mProgressBar.setVisibility(View.INVISIBLE); //Hide Progressbar by Default
+        movieRepo = MovieRepository.getInstance();
 
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.new_movies);
+        //mRecyclerView.setHasFixedSize(true);
 
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_cinema, container, false);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        mRecyclerView.setLayoutManager(linearLayoutManager);
+
+        getGenres();
+        return view;
+
     }
+    private void getGenres() {
+        movieRepo.getGenres(new OnGetGenresCallback() {
+            @Override
+            public void onSuccess(List<Genre> genres) {
+                getMovies(genres);
+            }
 
+            @Override
+            public void onError() {
+                showError();
+                }
+            });
+        }
+    private void getMovies(final List<Genre> genres) {
+        movieRepo.getMovies(new OnGetMoviesCallback() {
+            @Override
+            public void onSuccess(List<Movie> movies) {
+                mAdapter = new MovieAdapter(movies, genres);
+                mProgressBar.setVisibility(View.INVISIBLE); //Hide Progressbar by Default
+                mRecyclerView.setAdapter(mAdapter);
+            }
+
+            @Override
+            public void onError() {
+                showError();
+            }
+        });
+    }
+    private void showError() {
+        Toast.makeText(getActivity(), "Please check your internet connection.", Toast.LENGTH_SHORT).show();
+    }
 
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 
-    //AsyncTask
-    public class FetchMovies extends AsyncTask<Void,Void,Void> {
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            mProgressBar.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-
-            popularMovies = "http://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=c2c572ea4e936f1e562f5d7b5b82909a";
-            topRatedMovies = "http://api.themoviedb.org/3/discover/movie?sort_by=vote_average.desc&api_key=c2c572ea4e936f1e562f5d7b5b82909a";
-
-            mPopularList = new ArrayList<>();
-            mTopTopRatedList = new ArrayList<>();
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void  s) {
-            super.onPostExecute(s);
-            mProgressBar.setVisibility(View.INVISIBLE);
-        }
-    }
 }
 
 

@@ -2,33 +2,42 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_cinema"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.CinemaFragment"
-    android:id="@+id/fragment_cinema">
+    tools:context=".fragment.CinemaFragment">
 
-    <GridView
-        android:id="@+id/cinema_movies_grid"
+
+    <!--<android.support.v7.widget.RecyclerView
+        android:id="@+id/new_movies"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:columnWidth="@dimen/grid_col_width"
-        android:gravity="center_horizontal"
-        android:numColumns="auto_fit"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />-->
 
     <ProgressBar
         android:id="@+id/loadingBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.499" />
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/new_movies"
+        android:layout_width="368dp"
+        android:layout_height="567dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
+    </android.support.v7.widget.RecyclerView>
 </android.support.constraint.ConstraintLayout>
