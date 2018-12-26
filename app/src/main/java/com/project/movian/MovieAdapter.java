@@ -27,7 +27,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     public MovieAdapter(List<Movie> movies, List<Genre> allGenres) {
         this.movies = movies;
         this.allGenres = allGenres;
-
     }
 
     @Override
@@ -44,6 +43,15 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     @Override
     public int getItemCount() {
         return movies.size();
+    }
+
+    public void appendMovies(List<Movie> moviesToAppend) {
+        movies.addAll(moviesToAppend);
+        notifyDataSetChanged();
+    }
+    public void clearMovies() {
+        movies.clear();
+        notifyDataSetChanged();
     }
 
     class MovieViewHolder extends RecyclerView.ViewHolder {

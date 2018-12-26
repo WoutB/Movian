@@ -22,8 +22,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <meta-data android:name="android.app.default_searchable" android:value=".SearchActivity" />
 
+        <meta-data
+            android:name="android.app.default_searchable"
+            android:value=".SearchActivity" />
+
+        <activity android:name=".MovieDetailActivity"></activity>
     </application>
 
 </manifest>

@@ -7,16 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".fragment.CinemaFragment">
 
-
-    <!--<android.support.v7.widget.RecyclerView
-        android:id="@+id/new_movies"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />-->
-
     <ProgressBar
         android:id="@+id/loadingBar"
         android:layout_width="wrap_content"
@@ -30,7 +20,7 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/new_movies"
-        android:layout_width="368dp"
+        android:layout_width="380dp"
         android:layout_height="567dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

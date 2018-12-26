@@ -5,17 +5,17 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.project.movian.MovieAdapter;
 import com.project.movian.MovieRepository;
-import com.project.movian.OnGetGenresCallback;
-import com.project.movian.OnGetMoviesCallback;
+import com.project.movian.api.OnGetGenresCallback;
+import com.project.movian.api.OnGetMoviesCallback;
 import com.project.movian.R;
 import com.project.movian.model.Genre;
 import com.project.movian.model.Movie;
@@ -30,12 +30,16 @@ import java.util.List;
  */
 public class CinemaFragment extends Fragment {
 
-    private String newMovies;
     private ArrayList<Movie> moviesList;
     private MovieAdapter mAdapter;
     private RecyclerView mRecyclerView;
     private ProgressBar mProgressBar;
     private MovieRepository movieRepo;
+    private List<Genre> movieGenres;
+    private boolean isFetchingMovies;
+    private int currentPage = 1;
+    private String sortBy = MovieRepository.UPCOMING;
+
 
     public CinemaFragment() {
         // Required empty public constructor
@@ -57,6 +61,8 @@ public class CinemaFragment extends Fragment {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(linearLayoutManager);
 
+        setupOnScrollListener();
+
         getGenres();
         return view;
 
@@ -65,24 +71,33 @@ public class CinemaFragment extends Fragment {
         movieRepo.getGenres(new OnGetGenresCallback() {
             @Override
             public void onSuccess(List<Genre> genres) {
-                getMovies(genres);
+                movieGenres = genres;
+                getMovies(currentPage);
             }
-
             @Override
             public void onError() {
                 showError();
                 }
             });
         }
-    private void getMovies(final List<Genre> genres) {
-        movieRepo.getMovies(new OnGetMoviesCallback() {
+    private void getMovies(int page) {
+        isFetchingMovies = true;
+        movieRepo.getMovies(page,sortBy, new OnGetMoviesCallback() {
             @Override
-            public void onSuccess(List<Movie> movies) {
-                mAdapter = new MovieAdapter(movies, genres);
-                mProgressBar.setVisibility(View.INVISIBLE); //Hide Progressbar by Default
-                mRecyclerView.setAdapter(mAdapter);
+            public void onSuccess(int page, List<Movie> movies) {
+                if (mAdapter == null) {
+                    mProgressBar.setVisibility(View.INVISIBLE);
+                    mAdapter = new MovieAdapter(movies, movieGenres);
+                    mRecyclerView.setAdapter(mAdapter);
+                } else {
+                    if (page == 1) {
+                        mAdapter.clearMovies();
+                    }
+                    mAdapter.appendMovies(movies);
+                }
+                currentPage = page;
+                isFetchingMovies = false;
             }
-
             @Override
             public void onError() {
                 showError();
@@ -90,13 +105,31 @@ public class CinemaFragment extends Fragment {
         });
     }
     private void showError() {
-        Toast.makeText(getActivity(), "Please check your internet connection.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "Please check your internet connection.", Toast.LENGTH_LONG).show();
     }
+    private void setupOnScrollListener() {
+        final LinearLayoutManager manager = new LinearLayoutManager(this.getContext());
+        mRecyclerView.setLayoutManager(manager);
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                int totalItemCount = manager.getItemCount();
+                int visibleItemCount = manager.getChildCount();
+                int firstVisibleItem = manager.findFirstVisibleItemPosition();
 
+                if (firstVisibleItem + visibleItemCount >= totalItemCount / 2) {
+                    if (!isFetchingMovies) {
+                        getMovies(currentPage + 1);
+                    }
+                }
+            }
+        });
+    }
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
 
 
 }

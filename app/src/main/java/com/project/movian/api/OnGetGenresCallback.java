@@ -1,4 +1,4 @@
-package com.project.movian;
+package com.project.movian.api;
 
 import com.project.movian.model.Genre;
 
