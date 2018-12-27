@@ -2,6 +2,9 @@ package com.project.movian;
 
 //http://imakeanapp.com/make-a-movies-app-using-tmdb-api-part-1-introduction/
 
+import android.app.SearchManager;
+import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabItem;
@@ -12,7 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
+import android.widget.SearchView;
 
 import com.project.movian.fragment.CinemaFragment;
 import com.project.movian.fragment.FavoritesFragment;
@@ -20,9 +23,9 @@ import com.project.movian.fragment.TopRatedFragment;
 
 
 public class MainActivity extends AppCompatActivity
-        implements CinemaFragment.OnFragmentInteractionListener,
-        TopRatedFragment.OnFragmentInteractionListener,
-        FavoritesFragment.OnFragmentInteractionListener {
+        implements  CinemaFragment.OnFragmentInteractionListener,
+                    TopRatedFragment.OnFragmentInteractionListener,
+                    FavoritesFragment.OnFragmentInteractionListener {
 
     private Toolbar toolbar;
     private TabLayout tabLayout;
@@ -55,19 +58,12 @@ public class MainActivity extends AppCompatActivity
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
                 }
-
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
+            public void onTabUnselected(TabLayout.Tab tab) { }
             @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
+            public void onTabReselected(TabLayout.Tab tab) { }
         });
     }
-
 
     @Override
     public void onFragmentInteraction(Uri uri) {
@@ -77,22 +73,13 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_toolbar, menu);
+
+        // Associate searchable configuration with the SearchView
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.onActionViewExpanded();
         return true;
     }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            // action with ID action_settings was selected
-            case R.id.action_search:
-
-            default:
-                break;
-        }
-        return true;
-    }
-
-
-
 }
 

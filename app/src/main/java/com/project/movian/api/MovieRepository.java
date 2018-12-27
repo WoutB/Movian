@@ -1,15 +1,5 @@
-package com.project.movian;
+package com.project.movian.api;
 
-import android.support.annotation.NonNull;
-import android.util.Log;
-
-import com.project.movian.api.MovieResponse;
-import com.project.movian.api.OnGetGenresCallback;
-import com.project.movian.api.OnGetMovieCallback;
-import com.project.movian.api.OnGetMoviesCallback;
-import com.project.movian.api.OnGetTrailersCallback;
-import com.project.movian.api.TheMovieDatabaseAPI;
-import com.project.movian.api.TrailerResponse;
 import com.project.movian.model.Movie;
 
 import retrofit2.Call;
@@ -142,6 +132,28 @@ public class MovieRepository {
 
                     @Override
                     public void onFailure(Call<TrailerResponse> call, Throwable t) {
+                        callback.onError();
+                    }
+                });
+    }
+    public void searchMovie(int page, String query, final OnSearchMovieCallback callback) {
+        api.searchMovies(query,"c2c572ea4e936f1e562f5d7b5b82909a", LANGUAGE, page)
+                .enqueue(new Callback<MovieResponse>() {
+                    @Override
+                    public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
+                        if (response.isSuccessful()) {
+                            MovieResponse movieResponse = response.body();
+                            if (movieResponse != null && movieResponse.getMovies() != null) {
+                                callback.onSuccess(movieResponse.getPage(), movieResponse.getMovies());
+                            } else {
+                                callback.onError();
+                            }
+                        } else {
+                            callback.onError();
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<MovieResponse> call, Throwable t) {
                         callback.onError();
                     }
                 });

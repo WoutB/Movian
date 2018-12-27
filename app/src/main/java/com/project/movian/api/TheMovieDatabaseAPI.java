@@ -43,4 +43,12 @@ public interface TheMovieDatabaseAPI {
             @Query("api_key") String apiKEy,
             @Query("language") String language
     );
+
+    @GET("search/movie")
+    Call<MovieResponse> searchMovies(
+            @Query("query") String query,
+            @Query("api_key") String apiKEy,
+            @Query("language") String language,
+            @Query("page") int page
+    );
 }

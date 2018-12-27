@@ -9,12 +9,12 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.project.movian.api.MovieRepository;
 import com.project.movian.api.OnGetGenresCallback;
 import com.project.movian.api.OnGetMovieCallback;
 import com.project.movian.api.OnGetTrailersCallback;

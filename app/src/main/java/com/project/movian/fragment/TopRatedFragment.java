@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 import com.project.movian.MovieAdapter;
 import com.project.movian.MovieDetailActivity;
-import com.project.movian.MovieRepository;
+import com.project.movian.api.MovieRepository;
 import com.project.movian.R;
 import com.project.movian.api.OnGetGenresCallback;
 import com.project.movian.api.OnGetMoviesCallback;

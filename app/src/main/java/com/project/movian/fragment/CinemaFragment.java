@@ -6,17 +6,15 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.project.movian.MainActivity;
 import com.project.movian.MovieAdapter;
 import com.project.movian.MovieDetailActivity;
-import com.project.movian.MovieRepository;
+import com.project.movian.api.MovieRepository;
 import com.project.movian.api.OnGetGenresCallback;
 import com.project.movian.api.OnGetMoviesCallback;
 import com.project.movian.R;
@@ -34,7 +32,6 @@ import java.util.List;
  */
 public class CinemaFragment extends Fragment {
 
-    private ArrayList<Movie> moviesList;
     private MovieAdapter mAdapter;
     private RecyclerView mRecyclerView;
     private ProgressBar mProgressBar;
