@@ -1,5 +1,6 @@
 package com.project.movian.fragment;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,11 +13,14 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.project.movian.MainActivity;
 import com.project.movian.MovieAdapter;
+import com.project.movian.MovieDetailActivity;
 import com.project.movian.MovieRepository;
 import com.project.movian.api.OnGetGenresCallback;
 import com.project.movian.api.OnGetMoviesCallback;
 import com.project.movian.R;
+import com.project.movian.api.OnMoviesClickCallback;
 import com.project.movian.model.Genre;
 import com.project.movian.model.Movie;
 
@@ -41,6 +45,14 @@ public class CinemaFragment extends Fragment {
     private String sortBy = MovieRepository.UPCOMING;
 
 
+    OnMoviesClickCallback callback = new OnMoviesClickCallback() {
+        @Override
+        public void onClick(Movie movie) {
+            Intent intent = new Intent(getActivity(), MovieDetailActivity.class);
+            intent.putExtra(MovieDetailActivity.MOVIE_ID, movie.getId());
+            startActivity(intent);
+        }
+    };
     public CinemaFragment() {
         // Required empty public constructor
     }
@@ -87,7 +99,7 @@ public class CinemaFragment extends Fragment {
             public void onSuccess(int page, List<Movie> movies) {
                 if (mAdapter == null) {
                     mProgressBar.setVisibility(View.INVISIBLE);
-                    mAdapter = new MovieAdapter(movies, movieGenres);
+                    mAdapter = new MovieAdapter(movies, movieGenres, callback);
                     mRecyclerView.setAdapter(mAdapter);
                 } else {
                     if (page == 1) {

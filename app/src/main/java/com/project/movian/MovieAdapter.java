@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.project.movian.api.OnMoviesClickCallback;
 import com.project.movian.model.Genre;
 import com.project.movian.model.Movie;
 
@@ -21,12 +22,14 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     private List<Movie> movies;
     private List<Genre> allGenres;
     private String IMAGE_BASE_URL = "http://image.tmdb.org/t/p/w500";
+    private OnMoviesClickCallback callback;
 
 
 
-    public MovieAdapter(List<Movie> movies, List<Genre> allGenres) {
+    public MovieAdapter(List<Movie> movies, List<Genre> allGenres, OnMoviesClickCallback callback) {
         this.movies = movies;
         this.allGenres = allGenres;
+        this.callback = callback;
     }
 
     @Override
@@ -60,6 +63,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         TextView rating;
         TextView genres;
         ImageView poster;
+        Movie movie;
 
 
         public MovieViewHolder(View itemView) {
@@ -69,10 +73,17 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
             rating = itemView.findViewById(R.id.item_movie_rating);
             genres = itemView.findViewById(R.id.item_movie_genre);
             poster = itemView.findViewById(R.id.item_movie_poster);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    callback.onClick(movie);
+                }
+            });
 
         }
 
         public void bind(Movie movie) {
+            this.movie = movie;
             releaseDate.setText(movie.getReleaseDate().split("-")[0]);
             title.setText(movie.getTitle());
             rating.setText(String.valueOf(movie.getRating()));

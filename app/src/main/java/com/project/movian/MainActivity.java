@@ -1,6 +1,7 @@
 package com.project.movian;
 
-import android.content.Intent;
+//http://imakeanapp.com/make-a-movies-app-using-tmdb-api-part-1-introduction/
+
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabItem;
