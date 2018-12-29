@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.project.movian.MovieAdapter;
+import com.project.movian.adapters.MovieAdapter;
 import com.project.movian.MovieDetailActivity;
 import com.project.movian.api.MovieRepository;
 import com.project.movian.api.OnGetGenresCallback;
@@ -22,7 +22,6 @@ import com.project.movian.api.OnMoviesClickCallback;
 import com.project.movian.model.Genre;
 import com.project.movian.model.Movie;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -41,7 +40,6 @@ public class CinemaFragment extends Fragment {
     private int currentPage = 1;
     private String sortBy = MovieRepository.UPCOMING;
 
-
     OnMoviesClickCallback callback = new OnMoviesClickCallback() {
         @Override
         public void onClick(Movie movie) {
@@ -50,10 +48,10 @@ public class CinemaFragment extends Fragment {
             startActivity(intent);
         }
     };
+
     public CinemaFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
@@ -64,7 +62,6 @@ public class CinemaFragment extends Fragment {
         movieRepo = MovieRepository.getInstance();
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.new_movies);
-        //mRecyclerView.setHasFixedSize(true);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -88,7 +85,8 @@ public class CinemaFragment extends Fragment {
                 showError();
                 }
             });
-        }
+    }
+
     private void getMovies(int page) {
         isFetchingMovies = true;
         movieRepo.getMovies(page,sortBy, new OnGetMoviesCallback() {
@@ -96,7 +94,7 @@ public class CinemaFragment extends Fragment {
             public void onSuccess(int page, List<Movie> movies) {
                 if (mAdapter == null) {
                     mProgressBar.setVisibility(View.INVISIBLE);
-                    mAdapter = new MovieAdapter(movies, movieGenres, callback);
+                    mAdapter = new MovieAdapter(movies, movieGenres, callback, getActivity().getApplication());
                     mRecyclerView.setAdapter(mAdapter);
                 } else {
                     if (page == 1) {
@@ -113,9 +111,11 @@ public class CinemaFragment extends Fragment {
             }
         });
     }
+
     private void showError() {
-        Toast.makeText(getActivity(), "Please check your internet connection.", Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), getResources().getString(R.string.something_wrong), Toast.LENGTH_LONG).show();
     }
+
     private void setupOnScrollListener() {
         final LinearLayoutManager manager = new LinearLayoutManager(this.getContext());
         mRecyclerView.setLayoutManager(manager);

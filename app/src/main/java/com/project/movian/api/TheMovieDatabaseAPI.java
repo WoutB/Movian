@@ -23,7 +23,6 @@ public interface TheMovieDatabaseAPI {
             @Query("page") int page
     );
 
-
     @GET("genre/movie/list")
     Call<MovieResponse> getGenres(
             @Query("api_key") String apiKey,

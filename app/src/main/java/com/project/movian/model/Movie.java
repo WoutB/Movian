@@ -1,14 +1,20 @@
 package com.project.movian.model;
 
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+@Entity(tableName = "favorite_movie")
 public class Movie {
     @SerializedName("id")
     @Expose
+    @PrimaryKey
     private int id;
 
     @SerializedName("title")
@@ -37,6 +43,7 @@ public class Movie {
 
     @SerializedName("genre_ids")
     @Expose
+    @Ignore
     private List<Integer> genreIds;
 
     @SerializedName("overview")
@@ -61,6 +68,7 @@ public class Movie {
 
     @SerializedName("genres")
     @Expose
+    @Ignore
     private List<Genre> genres;
 
     public int getId() {

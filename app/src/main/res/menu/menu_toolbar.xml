@@ -6,9 +6,12 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
         android:icon="@drawable/ic_search"
         android:title="Search"
         app:actionViewClass="android.widget.SearchView"
-        app:showAsAction="collapseActionView|ifRoom"
         app:iconifiedByDefault="false"
-        />
+        app:showAsAction="ifRoom|collapseActionView" />
+
     <requestFocus />
+    <item android:id="@+id/action_settings"
+        android:title="@string/action_settings"
+        app:showAsAction="never"/>
 </menu>
 

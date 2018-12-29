@@ -1,6 +1,5 @@
 package com.project.movian.fragment;
 
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.project.movian.MovieAdapter;
+import com.project.movian.adapters.MovieAdapter;
 import com.project.movian.MovieDetailActivity;
 import com.project.movian.api.MovieRepository;
 import com.project.movian.R;
@@ -26,13 +25,12 @@ import com.project.movian.model.Movie;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * A simple {@link Fragment} subclass.
  * Tutorial voor viewpager fragments gevolgd: https://www.codingdemos.com/android-tablayout-example-viewpager/
  */
 public class TopRatedFragment extends Fragment {
-    private ArrayList<Movie> moviesList;
+
     private MovieAdapter mAdapter;
     private RecyclerView mRecyclerView;
     private ProgressBar mProgressBar;
@@ -55,18 +53,14 @@ public class TopRatedFragment extends Fragment {
         // Required empty public constructor
     }
 
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_top_rated, container, false);
         mProgressBar = (ProgressBar) view.findViewById(R.id.loadingBar);
         movieRepo = MovieRepository.getInstance();
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.toprated_movies);
-        //mRecyclerView.setHasFixedSize(true);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -77,6 +71,7 @@ public class TopRatedFragment extends Fragment {
         getGenres();
         return view;
     }
+
     private void getGenres() {
         movieRepo.getGenres(new OnGetGenresCallback() {
             @Override
@@ -90,6 +85,7 @@ public class TopRatedFragment extends Fragment {
             }
         });
     }
+
     private void getMovies(int page) {
         isFetchingMovies = true;
         movieRepo.getMovies(page,sortBy, new OnGetMoviesCallback() {
@@ -97,7 +93,7 @@ public class TopRatedFragment extends Fragment {
             public void onSuccess(int page, List<Movie> movies) {
                 if (mAdapter == null) {
                     mProgressBar.setVisibility(View.INVISIBLE);
-                    mAdapter = new MovieAdapter(movies, movieGenres, callback);
+                    mAdapter = new MovieAdapter(movies, movieGenres, callback, getActivity().getApplication());
                     mRecyclerView.setAdapter(mAdapter);
                 } else {
                     if (page == 1) {
@@ -114,9 +110,11 @@ public class TopRatedFragment extends Fragment {
             }
         });
     }
+
     private void showError() {
-        Toast.makeText(getActivity(), "Please check your internet connection.", Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), getResources().getString(R.string.something_wrong), Toast.LENGTH_LONG).show();
     }
+
     private void setupOnScrollListener() {
         final LinearLayoutManager manager = new LinearLayoutManager(this.getContext());
         mRecyclerView.setLayoutManager(manager);
@@ -135,6 +133,7 @@ public class TopRatedFragment extends Fragment {
             }
         });
     }
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);

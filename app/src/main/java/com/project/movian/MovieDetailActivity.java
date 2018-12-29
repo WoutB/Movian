@@ -1,7 +1,9 @@
 package com.project.movian;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.net.Uri;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -18,6 +20,8 @@ import com.project.movian.api.MovieRepository;
 import com.project.movian.api.OnGetGenresCallback;
 import com.project.movian.api.OnGetMovieCallback;
 import com.project.movian.api.OnGetTrailersCallback;
+import com.project.movian.database.DBRepository;
+import com.project.movian.fragment.FavoritesFragment;
 import com.project.movian.model.Genre;
 import com.project.movian.model.Movie;
 import com.project.movian.model.Trailer;
@@ -35,6 +39,8 @@ public class MovieDetailActivity extends AppCompatActivity {
     private static String YOUTUBE_VIDEO_URL = "http://www.youtube.com/watch?v=%s";
     private static String YOUTUBE_THUMBNAIL_URL = "http://img.youtube.com/vi/%s/0.jpg";
 
+    private Movie mMovie;
+    private Toolbar toolbar;
     private ImageView movieBackdrop;
     private ImageView moviePoster;
     private TextView movieShortInfo;
@@ -49,28 +55,51 @@ public class MovieDetailActivity extends AppCompatActivity {
     private TextView movieRevenue;
     private TextView movieHomepage;
     private LinearLayout movieTrailers;
-
     private MovieRepository moviesRepository;
     private int movieId;
+    private FloatingActionButton mFab;
+    private DBRepository dbRepo;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
-
+        toolbar = findViewById(R.id.toolbar);
         movieId = getIntent().getIntExtra(MOVIE_ID, movieId);
-
+        mFab = (FloatingActionButton) findViewById(R.id.addToFavorites);
         moviesRepository = MovieRepository.getInstance();
+        dbRepo = new DBRepository(getApplication());
 
         setupToolbar();
-
         initUI();
-
         getMovie();
+        favoritesHandler();
+    }
+
+    private void favoritesHandler(){
+        //check if movie is in favorites // yes? show delete button
+        if (dbRepo.isFavorite(movieId) == movieId){
+            mFab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorAccent)));
+        } else {
+            mFab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
+        }
+        mFab.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if (dbRepo.isFavorite(movieId) != movieId){
+                    dbRepo.insertMovie(mMovie);
+                    Toast.makeText(MovieDetailActivity.this, getResources().getString(R.string.success_add), Toast.LENGTH_SHORT).show();
+                    mFab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorAccent)));
+                } else {
+                    dbRepo.deleteMovie(mMovie);
+                    Toast.makeText(MovieDetailActivity.this, getResources().getString(R.string.success_delete), Toast.LENGTH_SHORT).show();
+                    mFab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
+                }
+            }
+        });
     }
 
     private void setupToolbar() {
-        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         if (getSupportActionBar() != null) {
@@ -99,6 +128,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         moviesRepository.getMovie(movieId, new OnGetMovieCallback() {
             @Override
             public void onSuccess(Movie movie) {
+                mMovie = movie;
                 String year = movie.getReleaseDate().substring(0, 4)+ " \u2022 ";
                 int hours = movie.getRuntime() / 60;
                 int minutes = movie.getRuntime() % 60;
@@ -199,6 +229,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     }
 
     private void showError() {
-        Toast.makeText(MovieDetailActivity.this, "Please check your internet connection.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(MovieDetailActivity.this, getResources().getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
     }
+
 }

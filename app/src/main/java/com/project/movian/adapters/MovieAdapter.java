@@ -1,5 +1,7 @@
-package com.project.movian;
+package com.project.movian.adapters;
 
+import android.app.Application;
+import android.content.res.ColorStateList;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -7,10 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.project.movian.MovieDetailActivity;
+import com.project.movian.R;
 import com.project.movian.api.OnMoviesClickCallback;
+import com.project.movian.database.DBRepository;
 import com.project.movian.model.Genre;
 import com.project.movian.model.Movie;
 
@@ -23,13 +29,13 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     private List<Genre> allGenres;
     private String IMAGE_BASE_URL = "http://image.tmdb.org/t/p/w500";
     private OnMoviesClickCallback callback;
+    private DBRepository dbRepo;
 
-
-
-    public MovieAdapter(List<Movie> movies, List<Genre> allGenres, OnMoviesClickCallback callback) {
+    public MovieAdapter(List<Movie> movies, List<Genre> allGenres, OnMoviesClickCallback callback, Application application) {
         this.movies = movies;
         this.allGenres = allGenres;
         this.callback = callback;
+        dbRepo = new DBRepository(application);
     }
 
     @Override
@@ -63,8 +69,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         TextView rating;
         TextView genres;
         ImageView poster;
+        ImageView heart;
         Movie movie;
-
 
         public MovieViewHolder(View itemView) {
             super(itemView);
@@ -73,16 +79,16 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
             rating = itemView.findViewById(R.id.item_movie_rating);
             genres = itemView.findViewById(R.id.item_movie_genre);
             poster = itemView.findViewById(R.id.item_movie_poster);
+            heart = itemView.findViewById(R.id.ic_heart);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     callback.onClick(movie);
                 }
             });
-
         }
 
-        public void bind(Movie movie) {
+        public void bind(final Movie movie) {
             this.movie = movie;
             releaseDate.setText(movie.getReleaseDate().split("-")[0]);
             title.setText(movie.getTitle());
@@ -92,7 +98,25 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
                     .load(IMAGE_BASE_URL + movie.getPosterPath())
                     .apply(RequestOptions.placeholderOf(R.color.colorPrimary))
                     .into(poster);
+            if(isFav()){
+                heart.setImageResource(R.drawable.ic_heart_yellow_full);
+            } else {
+                heart.setImageResource(R.drawable.ic_heart_yellow);
+            };
+            heart.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    if (!isFav()){
+                        dbRepo.insertMovie(movie);
+                        heart.setImageResource(R.drawable.ic_heart_yellow_full);
+                    } else {
+                        dbRepo.deleteMovie(movie);
+                        heart.setImageResource(R.drawable.ic_heart_yellow);
+                    }
+                }
+            });
         }
+
         private String getGenres(List<Integer> genreIds) {
             List<String> movieGenres = new ArrayList<>();
             for (Integer genreId : genreIds) {
@@ -104,6 +128,13 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
                 }
             }
             return TextUtils.join(", ", movieGenres);
+        }
+        private boolean isFav(){
+            if (dbRepo.isFavorite(movie.getId()) == movie.getId()){
+                return true;
+            } else {
+                return false;
+            }
         }
     }
 }

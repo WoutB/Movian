@@ -1,18 +1,18 @@
-package com.project.movian;
+package com.project.movian.adapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.project.movian.fragment.CinemaFragment;
 import com.project.movian.fragment.FavoritesFragment;
 import com.project.movian.fragment.TopRatedFragment;
 
-public class PageAdapter extends FragmentPagerAdapter {
+public class PageAdapter extends FragmentStatePagerAdapter {
 
     private int numOfTabs;
 
-    PageAdapter(FragmentManager fm, int numOfTabs) {
+    public PageAdapter(FragmentManager fm, int numOfTabs) {
         super(fm);
         this.numOfTabs = numOfTabs;
     }
@@ -35,4 +35,6 @@ public class PageAdapter extends FragmentPagerAdapter {
     public int getCount() {
         return numOfTabs;
     }
+
+
 }

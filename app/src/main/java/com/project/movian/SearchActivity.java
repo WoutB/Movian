@@ -1,28 +1,20 @@
 package com.project.movian;
 
-
 import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.project.movian.adapters.MovieAdapter;
 import com.project.movian.api.MovieRepository;
 import com.project.movian.api.OnGetGenresCallback;
-import com.project.movian.api.OnGetMoviesCallback;
 import com.project.movian.api.OnMoviesClickCallback;
 import com.project.movian.api.OnSearchMovieCallback;
 import com.project.movian.model.Genre;
@@ -75,6 +67,7 @@ public class SearchActivity extends AppCompatActivity {
 
         handleIntent(getIntent());
     }
+
     private void setupToolbar() {
         mToolbar.setTitle(getResources().getString(R.string.search_results));
         setSupportActionBar(mToolbar);
@@ -99,6 +92,7 @@ public class SearchActivity extends AppCompatActivity {
             getGenres(query);
         }
     }
+
     private void getGenres(String q) {
         movieRepo.getGenres(new OnGetGenresCallback() {
             @Override
@@ -112,6 +106,7 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
     }
+
     private void searchMovie(int page, String query) {
         isFetchingMovies = true;
         movieRepo.searchMovie(page,query, new OnSearchMovieCallback() {
@@ -124,7 +119,7 @@ public class SearchActivity extends AppCompatActivity {
                 } else {
                 if (mAdapter == null) {
                     mProgressBar.setVisibility(View.INVISIBLE);
-                    mAdapter = new MovieAdapter(movies, movieGenres, callback);
+                    mAdapter = new MovieAdapter(movies, movieGenres, callback, getApplication());
                     mRecyclerView.setAdapter(mAdapter);
                 } else {
                     if (page == 1) {

@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">Movian</string>
+    <string name="search_hint">Zoek films</string>
+    <string name="search_results">Zoekresultaten</string>
+    <string name="no_search_results">Niets gevonden</string>
+    <string name="action_settings">Instellingen</string>
+
+    <string name="title_activity_settings">Instellingen</string>
+    <string name="language_change">language_change</string>
+    <string name="summary_language">Default English</string>
+    <string name="language_app">language_app</string>
+    <string name="title_languages">Taal</string>
+
+    <string name="cinema">Cinema</string>
+    <string name="toprated">Best beoordeeld</string>
+    <string name="favorites">Favorieten</string>
+    <string name="facts">Feiten</string>
+    <string name="original_language">Originele taal</string>
+    <string name="revenue">Opbrengst</string>
+    <string name="homepage">Website</string>
+    <string name="search_result_title">Resultaten voor: </string>
+
+    <string name="something_wrong">Er is iets misgegaan</string>
+    <string name="success_delete">Verwijderd uit favorieten</string>
+    <string name="success_add">Toegevoegd aan favorieten</string>
+    <string name="pl_restart">Gelieve de app te herstarten</string>
+
+
+</resources>

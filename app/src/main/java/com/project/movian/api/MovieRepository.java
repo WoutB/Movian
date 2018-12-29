@@ -1,5 +1,9 @@
 package com.project.movian.api;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
+import com.project.movian.MainActivity;
 import com.project.movian.model.Movie;
 
 import retrofit2.Call;
@@ -10,7 +14,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MovieRepository {
     private static final String BASE_URL = "https://api.themoviedb.org/3/";
-    private static final String LANGUAGE = "en-US";
+    private static String LANGUAGE = "en-US";
     public static final String TOP_RATED = "top_rated";
     public static final String UPCOMING = "upcoming";
 
@@ -20,6 +24,14 @@ public class MovieRepository {
 
     private MovieRepository(TheMovieDatabaseAPI api) {
         this.api = api;
+        switch (MainActivity.mLanguageCode) {
+            case "en": LANGUAGE = "en-US";
+            break;
+            case "nl": LANGUAGE = "nl";
+            break;
+            default: LANGUAGE = "en";
+        }
+
     }
 
     public static MovieRepository getInstance() {

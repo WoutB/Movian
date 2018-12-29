@@ -29,20 +29,20 @@
             android:id="@+id/tabCinema"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cinema" />
+            android:text="@string/cinema" />
 
         <android.support.design.widget.TabItem
             android:id="@+id/tabTopRated"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Top Rated"
+            android:text="@string/toprated"
             />
 
         <android.support.design.widget.TabItem
             android:id="@+id/tabFavorites"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Favorites"
+            android:text="@string/favorites"
              />
 
     </android.support.design.widget.TabLayout>
