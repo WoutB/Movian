@@ -33,6 +33,7 @@ import io.paperdb.Paper;
 
 /**
  * Tutorial voor viewpager fragments gevolgd: https://www.codingdemos.com/android-tablayout-example-viewpager/
+ * ***Ik moet wel in de instellingen instant run uitzetten (anders krijg ik een INSTALL_FAILED_INVALID_APK error)
  */
 public class MainActivity extends AppCompatActivity
         implements  CinemaFragment.OnFragmentInteractionListener,

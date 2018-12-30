@@ -1,8 +1,10 @@
 package com.project.movian.api;
 
 import com.project.movian.MainActivity;
+import com.project.movian.R;
 import com.project.movian.model.Movie;
 
+import io.paperdb.Paper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -24,13 +26,6 @@ public class MovieRepository {
 
     private MovieRepository(TheMovieDatabaseAPI api) {
         this.api = api;
-        switch (MainActivity.mLanguageCode) {
-            case "en": LANGUAGE = "en-US";
-            break;
-            case "nl": LANGUAGE = "nl";
-            break;
-            default: LANGUAGE = "en";
-        }
     }
 
     public static MovieRepository getInstance() {
@@ -65,7 +60,7 @@ public class MovieRepository {
                 callback.onError();
             }
         };
-
+        LANGUAGE = Paper.book().read("language_app").toString();
         switch (sortBy) {
             case TOP_RATED:
                 api.getTopRatedMovies("c2c572ea4e936f1e562f5d7b5b82909a", LANGUAGE, page)
@@ -78,6 +73,7 @@ public class MovieRepository {
         }
     }
     public void getGenres(final OnGetGenresCallback callback) {
+        LANGUAGE = Paper.book().read("language_app").toString();
         api.getGenres("c2c572ea4e936f1e562f5d7b5b82909a", LANGUAGE)
                 .enqueue(new Callback<MovieResponse>() {
                     @Override
@@ -101,6 +97,7 @@ public class MovieRepository {
                 });
     }
     public void getMovie(int movieId, final OnGetMovieCallback callback) {
+        LANGUAGE = Paper.book().read("language_app").toString();
         api.getMovie(movieId, "c2c572ea4e936f1e562f5d7b5b82909a", LANGUAGE)
                 .enqueue(new Callback<Movie>() {
                     @Override
@@ -124,6 +121,7 @@ public class MovieRepository {
                 });
     }
     public void getTrailers(int movieId, final OnGetTrailersCallback callback) {
+        LANGUAGE = Paper.book().read("language_app").toString();
         api.getTrailers(movieId, "c2c572ea4e936f1e562f5d7b5b82909a", LANGUAGE)
                 .enqueue(new Callback<TrailerResponse>() {
                     @Override
@@ -147,6 +145,7 @@ public class MovieRepository {
                 });
     }
     public void searchMovie(int page, String query, final OnSearchMovieCallback callback) {
+        LANGUAGE = Paper.book().read("language_app").toString();
         api.searchMovies(query,"c2c572ea4e936f1e562f5d7b5b82909a", LANGUAGE, page)
                 .enqueue(new Callback<MovieResponse>() {
                     @Override

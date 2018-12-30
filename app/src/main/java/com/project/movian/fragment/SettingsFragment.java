@@ -7,11 +7,12 @@ import android.os.Bundle;
 import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
-import android.widget.Toast;
 
 import com.project.movian.LocaleHelper;
+import com.project.movian.MainActivity;
 import com.project.movian.R;
 import com.project.movian.RateActivity;
+import com.project.movian.SettingsActivity;
 
 import io.paperdb.Paper;
 
@@ -20,7 +21,6 @@ import io.paperdb.Paper;
  * https://google-developer-training.gitbooks.io/android-developer-fundamentals-course-practicals/content/en/Unit%204/92_p_adding_settings_to_an_app.html
  */
 public class SettingsFragment extends PreferenceFragmentCompat {
-
     public SettingsFragment() {
         // Required empty public constructor
     }
@@ -29,7 +29,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     public void onCreatePreferences(Bundle savedInstanceState,
                                     String rootKey) {
         setPreferencesFromResource(R.xml.pref_main, rootKey);
-
 
         Preference language=(Preference)findPreference((getResources().getString(R.string.language_app)));
         language.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener(){
@@ -43,8 +42,9 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
                 Paper.book().write(getResources().getString(R.string.language_app), stringValue);
                 updateView(Paper.book().read(getResources().getString(R.string.language_app)).toString());
-
-                Toast.makeText(getActivity(), getResources().getString(R.string.pl_restart), Toast.LENGTH_SHORT).show();
+                MainActivity.mLanguageCode = Paper.book().read(getResources().getString(R.string.language_app)).toString();
+                startActivity(new Intent(getActivity(), MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent
+                        .FLAG_ACTIVITY_CLEAR_TOP));
 
                 return true;
             }
