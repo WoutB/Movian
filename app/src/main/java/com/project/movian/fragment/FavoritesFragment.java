@@ -33,7 +33,6 @@ import com.project.movian.model.Movie;
 import java.util.List;
 
 /**
- * A simple {@link Fragment} subclass.
  * Tutorial voor viewpager fragments gevolgd: https://www.codingdemos.com/android-tablayout-example-viewpager/
  */
 public class FavoritesFragment extends Fragment {
@@ -103,9 +102,7 @@ public class FavoritesFragment extends Fragment {
             mProgressBar.setVisibility(View.INVISIBLE);
             noFavorites.setVisibility(View.VISIBLE);
         }
-
     }
-
 
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name

@@ -7,8 +7,10 @@ import android.view.MenuItem;
 
 import com.project.movian.fragment.SettingsFragment;
 
-//https://google-developer-training.gitbooks.io/android-developer-fundamentals-course-practicals/content/en/Unit%204/92_p_adding_settings_to_an_app.html
-
+/**
+ * Settingspage tutorial gevolgd:
+ * https://google-developer-training.gitbooks.io/android-developer-fundamentals-course-practicals/content/en/Unit%204/92_p_adding_settings_to_an_app.html
+ */
 public class SettingsActivity extends AppCompatActivity {
 
     @Override
@@ -17,6 +19,7 @@ public class SettingsActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction()
                 .add(android.R.id.content, new SettingsFragment())
                 .commit();
+        
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
     @Override

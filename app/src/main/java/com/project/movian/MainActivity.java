@@ -1,11 +1,11 @@
 package com.project.movian;
 
-//http://imakeanapp.com/make-a-movies-app-using-tmdb-api-part-1-introduction/
 
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -21,12 +21,19 @@ import android.view.MenuItem;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.bumptech.glide.load.engine.Resource;
 import com.project.movian.adapters.PageAdapter;
 import com.project.movian.fragment.CinemaFragment;
 import com.project.movian.fragment.FavoritesFragment;
 import com.project.movian.fragment.TopRatedFragment;
 
+import java.util.Locale;
 
+import io.paperdb.Paper;
+
+/**
+ * Tutorial voor viewpager fragments gevolgd: https://www.codingdemos.com/android-tablayout-example-viewpager/
+ */
 public class MainActivity extends AppCompatActivity
         implements  CinemaFragment.OnFragmentInteractionListener,
                     TopRatedFragment.OnFragmentInteractionListener,
@@ -44,11 +51,15 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getLanguage();
-        LocaleHelper.setLocale(MainActivity.this, mLanguageCode);
 
+        Paper.init(this);
+        String language = Paper.book().read(getResources().getString(R.string.language_app));
+        if (language == null)
+            Paper.book().write(getResources().getString(R.string.language_app), "en");
+        updateView(Paper.book().read(getResources().getString(R.string.language_app)).toString());
 
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(getResources().getString(R.string.app_name));
@@ -76,11 +87,17 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-    private String getLanguage() {
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        mLanguageCode = sharedPref.getString("language_app", "en");
+    private void updateView(String lang) {
+        Context context = LocaleHelper.setLocale(getApplicationContext(), lang);
+        Resources resources = context.getResources();
+        mLanguageCode = lang;
 
-        return this.mLanguageCode;
+    }
+
+    @Override
+    protected void attachBaseContext(Context base){
+        super.attachBaseContext(LocaleHelper.onAttach(base, "en"));
+
     }
 
     @Override

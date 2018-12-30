@@ -8,7 +8,10 @@ import android.content.Context;
 
 import com.project.movian.model.Movie;
 
-@Database(entities = {Movie.class}, version = 1)
+/**
+ * Werkcollege 4
+ */
+@Database(entities = {Movie.class}, version = 1, exportSchema = false)
 public abstract class DatabaseContract extends RoomDatabase {
 
     public abstract MovieDao movieDao();

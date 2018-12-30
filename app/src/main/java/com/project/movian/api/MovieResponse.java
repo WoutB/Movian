@@ -6,7 +6,9 @@ import com.project.movian.model.Genre;
 import com.project.movian.model.Movie;
 
 import java.util.List;
-
+/**
+ * Tutorial voor ophalen en weergeven van films http://imakeanapp.com/make-a-movies-app-using-tmdb-api-part-1-introduction/
+ */
 public class MovieResponse {
     @SerializedName("page")
     @Expose

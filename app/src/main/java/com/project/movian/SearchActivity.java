@@ -22,7 +22,11 @@ import com.project.movian.model.Movie;
 
 import java.util.List;
 
-//https://developer.android.com/training/search/setup#java
+
+/**
+ * Tutorial voor searchimplementatie
+ * https://developer.android.com/training/search/setup#java
+ * */
 public class SearchActivity extends AppCompatActivity {
     private MovieAdapter mAdapter;
     private RecyclerView mRecyclerView;

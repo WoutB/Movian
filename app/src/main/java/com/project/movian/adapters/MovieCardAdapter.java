@@ -17,8 +17,8 @@ import java.util.List;
 
 public class MovieCardAdapter extends RecyclerView.Adapter<MovieCardAdapter.MovieViewHolder> {
 
-    private List<Movie> movies;
     private String IMAGE_BASE_URL = "http://image.tmdb.org/t/p/w500";
+    private List<Movie> movies;
     private OnMoviesClickCallback callback;
 
     public MovieCardAdapter(List<Movie> movies, OnMoviesClickCallback callback) {
@@ -42,10 +42,6 @@ public class MovieCardAdapter extends RecyclerView.Adapter<MovieCardAdapter.Movi
         return movies.size();
     }
 
-    public void appendMovies(List<Movie> moviesToAppend) {
-        movies.addAll(moviesToAppend);
-        notifyDataSetChanged();
-    }
     public void clearMovies() {
         movies.clear();
         notifyDataSetChanged();
@@ -72,7 +68,8 @@ public class MovieCardAdapter extends RecyclerView.Adapter<MovieCardAdapter.Movi
 
         public void bind(Movie movie) {
             this.movie = movie;
-            releaseDate.setText(movie.getReleaseDate().split("-")[0]);
+            if (movie.getReleaseDate() != null)
+                releaseDate.setText(movie.getReleaseDate().split("-")[0]);
             title.setText(movie.getTitle());
             Glide.with(itemView)
                     .load(IMAGE_BASE_URL + movie.getPosterPath())

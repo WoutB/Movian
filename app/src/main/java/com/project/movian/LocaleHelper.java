@@ -10,8 +10,10 @@ import android.preference.PreferenceManager;
 
 import java.util.Locale;
 
-/*
+/**
+ * Tutorials gevolgd om taal te veranderen:
 * http://devdeeds.com/android-change-language-at-runtime/
+* https://www.youtube.com/watch?v=ywF-ySiBAsc
 * */
 public class LocaleHelper {
 
@@ -27,16 +29,10 @@ public class LocaleHelper {
         return setLocale(context, lang);
     }
 
-    public static String getLanguage(Context context) {
-        return getPersistedData(context, Locale.getDefault().getLanguage());
-    }
-
     public static Context setLocale(Context context, String language) {
         persist(context, language);
 
-        //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-        //    return updateResources(context, language);
-        //}
+
 
         return updateResourcesLegacy(context, language);
     }
@@ -61,9 +57,11 @@ public class LocaleHelper {
 
         Configuration configuration = context.getResources().getConfiguration();
         configuration.setLocale(locale);
+        configuration.setLayoutDirection(locale);
 
         return context.createConfigurationContext(configuration);
     }
+
 
     @SuppressWarnings("deprecation")
     private static Context updateResourcesLegacy(Context context, String language) {
@@ -74,7 +72,9 @@ public class LocaleHelper {
 
         Configuration configuration = resources.getConfiguration();
         configuration.locale = locale;
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            configuration.setLayoutDirection(locale);
+        }
         resources.updateConfiguration(configuration, resources.getDisplayMetrics());
 
         return context;

@@ -23,7 +23,18 @@
     <string name="something_wrong">Er is iets misgegaan</string>
     <string name="success_delete">Verwijderd uit favorieten</string>
     <string name="success_add">Toegevoegd aan favorieten</string>
-    <string name="pl_restart">Gelieve de app te herstarten</string>
+    <string name="pl_restart">Please restart the app</string>
+    <string name="rate_us">rate_us</string>
+    <string name="rate_summary">Beoordeel deze app</string>
+    <string name="general">Algemeen</string>
+    <string name="application">Applicatie</string>
+    <string name="rate_title">Geef hier je beoordeling</string>
+    <string name="user_rating">Je beoordeelde ons met %1$d sterren, Bedankt!</string>
+    <string name="title_activity_rating">Beoordeling</string>
+    <string name="rating_app">rating_app</string>
+    <string name="title_rating">Beoordeel de app</string>
+
+
 
 
 </resources>

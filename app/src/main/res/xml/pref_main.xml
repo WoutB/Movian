@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <PreferenceCategory android:title="General">
+    <PreferenceCategory android:title="@string/general">
         <ListPreference
             android:dialogTitle="@string/title_languages"
             android:title="@string/title_languages"
@@ -12,5 +12,11 @@
             <!--android:summary="@string/summary_language"-->
 
 
+
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/application">
+        <Preference android:title="@string/title_rating"
+            android:key="@string/rate_us"
+            android:summary="@string/rate_summary"/>
     </PreferenceCategory>
 </PreferenceScreen>

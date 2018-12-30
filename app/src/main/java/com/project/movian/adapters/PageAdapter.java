@@ -8,6 +8,9 @@ import com.project.movian.fragment.CinemaFragment;
 import com.project.movian.fragment.FavoritesFragment;
 import com.project.movian.fragment.TopRatedFragment;
 
+/**
+ * Tutorial voor viewpager fragments gevolgd: https://www.codingdemos.com/android-tablayout-example-viewpager/
+ */
 public class PageAdapter extends FragmentStatePagerAdapter {
 
     private int numOfTabs;

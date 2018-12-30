@@ -1,8 +1,5 @@
 package com.project.movian.api;
 
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-
 import com.project.movian.MainActivity;
 import com.project.movian.model.Movie;
 
@@ -12,9 +9,12 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/**
+ * Tutorial voor ophalen en weergeven van films http://imakeanapp.com/make-a-movies-app-using-tmdb-api-part-1-introduction/
+ */
 public class MovieRepository {
     private static final String BASE_URL = "https://api.themoviedb.org/3/";
-    private static String LANGUAGE = "en-US";
+    private static String LANGUAGE;
     public static final String TOP_RATED = "top_rated";
     public static final String UPCOMING = "upcoming";
 
@@ -31,7 +31,6 @@ public class MovieRepository {
             break;
             default: LANGUAGE = "en";
         }
-
     }
 
     public static MovieRepository getInstance() {
@@ -43,7 +42,6 @@ public class MovieRepository {
 
             repository = new MovieRepository(retrofit.create(TheMovieDatabaseAPI.class));
         }
-
         return repository;
     }
 

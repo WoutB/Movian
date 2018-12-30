@@ -1,7 +1,6 @@
 package com.project.movian.adapters;
 
 import android.app.Application;
-import android.content.res.ColorStateList;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -9,11 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.project.movian.MovieDetailActivity;
 import com.project.movian.R;
 import com.project.movian.api.OnMoviesClickCallback;
 import com.project.movian.database.DBRepository;
@@ -23,11 +20,14 @@ import com.project.movian.model.Movie;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Tutorial voor ophalen en weergeven van films http://imakeanapp.com/make-a-movies-app-using-tmdb-api-part-1-introduction/
+ */
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
 
+    private String IMAGE_BASE_URL = "http://image.tmdb.org/t/p/w500";
     private List<Movie> movies;
     private List<Genre> allGenres;
-    private String IMAGE_BASE_URL = "http://image.tmdb.org/t/p/w500";
     private OnMoviesClickCallback callback;
     private DBRepository dbRepo;
 

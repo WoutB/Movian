@@ -1,6 +1,6 @@
 package com.project.movian.database;
 
-import android.app.Application;
+import android.content.Context;
 import android.os.AsyncTask;
 
 import com.project.movian.model.Movie;
@@ -10,7 +10,7 @@ import java.util.List;
 public class DBRepository {
     private MovieDao mMovieDao;
 
-    public DBRepository(Application application) {
+    public DBRepository(Context application) {
         DatabaseContract db = DatabaseContract.getDatabase(application);
         mMovieDao = db.movieDao();
     }
@@ -18,6 +18,7 @@ public class DBRepository {
         return mMovieDao.getAllFavoriteMovies();
     }
     public int isFavorite(int id){ return mMovieDao.isFavorite(id); }
+    public Movie findById(int id){ return mMovieDao.findById(id); }
 
     public void insertMovie(Movie movie) {
         new insertMovieAsync(mMovieDao).execute(movie);

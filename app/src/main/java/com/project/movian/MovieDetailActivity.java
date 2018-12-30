@@ -1,7 +1,9 @@
 package com.project.movian;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -31,6 +33,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import io.paperdb.Paper;
+
+/**
+ * Tutorial voor ophalen en weergeven van films http://imakeanapp.com/make-a-movies-app-using-tmdb-api-part-1-introduction/
+ */
 public class MovieDetailActivity extends AppCompatActivity {
 
     public static String MOVIE_ID = "movie_id";
@@ -63,6 +70,8 @@ public class MovieDetailActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        updateView();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
         toolbar = findViewById(R.id.toolbar);
@@ -75,6 +84,10 @@ public class MovieDetailActivity extends AppCompatActivity {
         initUI();
         getMovie();
         favoritesHandler();
+    }
+    private void updateView() {
+        Context context = LocaleHelper.setLocale(getApplicationContext(), Paper.book().read(getResources().getString(R.string.language_app)).toString());
+        Resources resources = context.getResources();
     }
 
     private void favoritesHandler(){

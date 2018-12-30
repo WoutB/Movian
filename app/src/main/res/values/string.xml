@@ -24,6 +24,16 @@
     <string name="success_delete">Successfully deleted from favorites</string>
     <string name="success_add">Successfully added to favorites</string>
     <string name="pl_restart">Please restart the app</string>
+    <string name="rate_us">rate_us</string>
+    <string name="rate_summary">Rate this app</string>
+    <string name="general">General</string>
+    <string name="application">Application</string>
+    <string name="rate_title">Please rate this app</string>
+    <string name="user_rating">You gave us a %1$d star rating, Thanks!</string>
+    <string name="title_activity_rating">Rate us</string>
+    <string name="rating_app">rating_app</string>
+    <string name="title_rating">Rate us</string>
+
 
 
 
